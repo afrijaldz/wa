@@ -7,8 +7,17 @@ function go() {
   console.log(number.value);
 }
 
-function handleChange(e: Event) {
-  number.value = (e.target as HTMLInputElement).value;
+function handleChange(e: KeyboardEvent) {
+  if (
+    (e.keyCode >= 48 && e.keyCode <= 57) ||
+    (e.keyCode >= 96 && e.keyCode <= 105)
+  ) {
+    // 0-9 only
+    console.log((e.target as HTMLInputElement).value);
+    number.value = (e.target as HTMLInputElement).value;
+  } else {
+    e.preventDefault();
+  }
 }
 </script>
 
@@ -22,7 +31,8 @@ function handleChange(e: Event) {
       <input
         class="py-5 px-3 border w-full focus-visible:outline-green-900"
         placeholder="Input whatsapp number"
-        @change.prevent="handleChange"
+        @keydown="handleChange"
+        v-model="number"
       />
       <div class="mt-4">
         <button
